@@ -1,227 +1,289 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veygo - Purchases</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f7f9fb;
-            margin: 0;
-            padding: 0;
-            color: #444;
-        }
-        .topbar {
-            background-color: #003b4d;
-            height: 56px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            box-sizing: border-box;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-        .topbar .logo {
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .topbar .top-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .topbar .top-right a {
-            color: white;
-            text-decoration: none;
-            border: 1px solid white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-        .sidebar {
-            position: fixed;
-            top: 56px;
-            left: 0;
-            height: calc(100% - 56px);
-            width: 220px;
-            background-color: #ffffff;
-            border-right: 1px solid #ddd;
-            padding-top: 40px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
-        }
-        .sidebar a {
-            display: flex;
-            align-items: center;
-            color: #444;
-            padding: 15px 20px;
-            text-decoration: none;
-        }
-        .sidebar a svg {
-            margin-right: 10px;
-        }
-        .sidebar a:hover {
-            background-color: #f1f4f7;
-        }
-        .sidebar .active {
-            color: #00c4cc;
-            font-weight: bold;
-        }
-        .content {
-            margin-left: 240px;
-            padding: 40px;
-            padding-top: 96px;
-        }
-        .card {
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-            max-width: 370px;
-        }
-        .card h4 {
-            margin: 0;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .card h4 svg {
-            width: 24px;
-            height: 24px;
-        }
-        .card .ended {
-            color: #cc0033;
-            font-weight: bold;
-            font-size: 14px;
-            margin: 4px 0 12px;
-        }
-        .card p {
-            margin: 6px 0;
-            font-size: 14px;
-        }
-        .card .reg-box {
-            display: inline-block;
-            background: #eaeaea;
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 12px;
-            vertical-align: middle;
-            margin-left: 4px;
-        }
-        .card .btn-row {
-            display: flex;
-            justify-content: space-between;
-            border-top: 1px solid #eee;
-            margin-top: 16px;
-            padding-top: 16px;
-        }
-        .card .btn-row a {
-            padding: 8px 16px;
-            border-radius: 16px;
-            font-weight: bold;
-            font-size: 14px;
-            text-decoration: none;
-        }
-        .btn-claim {
-            background: #e7f0fe;
-            color: #0073e6;
-        }
-        .btn-view {
-            background: #000;
-            color: #fff;
-        }
-        .footer-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #00ded7;
-            color: white;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
-
-<div class="topbar">
-    <div class="logo">Veygo <span style="font-weight: normal; font-size: 14px;">by Admiral</span></div>
-    <div class="top-right">
-        <a href="https://www.google.com">❓ Get Help</a>
-        <a href="https://www.google.com">👤</a>
-    </div>
-</div>
-
-<div class="sidebar">
-    <a href="https://www.google.com">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M20.24 22C20.24 17.58 16.42 14 12 14C7.58 14 3.76 17.58 3.76 22" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Profile
-    </a>
-    <a href="https://www.google.com">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 4V16H8V20L12 16H20V4H4Z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Marketing Preferences
-    </a>
-    <a href="https://www.google.com" class="active">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 3H20V5H4V3ZM4 7H20V9H4V7ZM4 11H20V13H4V11ZM4 15H20V17H4V15Z" fill="#00c4cc"/>
-        </svg>
-        Purchases
-    </a>
-    <a href="https://www.google.com">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 14C9.65685 14 11 12.6569 11 11C11 9.34315 9.65685 8 8 8C6.34315 8 5 9.34315 5 11C5 12.6569 6.34315 14 8 14Z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M16 14C17.6569 14 19 12.6569 19 11C19 9.34315 17.6569 8 16 8C14.3431 8 13 9.34315 13 11C13 12.6569 14.3431 14 16 14Z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 17C9.79086 17 8 18.7909 8 21H16C16 18.7909 14.2091 17 12 17Z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Referrals
-    </a>
-    <div style="position:absolute; bottom:40px; left:20px;">
-        <p>Logged in as</p>
-        <strong>Oliver</strong>
-        <br><br>
-        <a class="button" href="https://www.google.com">Logout</a>
-    </div>
-</div>
-
-<div class="content">
-    <h1>Purchases</h1>
-
-    <h3>Active policies</h3>
-
-    <div class="card">
-        <h4>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#00c4cc">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13l2-2m0 0l7-7 7 7-2 2m-5 5V6" />
-            </svg>
-            Temporary car insurance
-        </h4>
-        <p>Car: <strong>London Taxis Int - TX II</strong> <span class="reg-box">H2OTX</span></p>
-        <p>Start: <strong>Mon, 12th May 2025</strong> at 14:32</p>
-        <p>End: <strong>Thu, 12th June 2025</strong> at 14:32</p>
-        <div class="btn-row">
-            <a href="https://www.google.com" class="btn-claim">Start a claim</a>
-            <a href="h2otx.pdf" class="btn-view">View</a>
-        </div>
-    </div>
-</div>
-
-<a class="footer-button" href="https://www.google.com">
-    Need help?
-</a>
-
-</body>
-</html>
+<!DOCTYPE html><html lang="en" class="wf-proximasoft-n4-active wf-proximasoft-i4-active wf-proximasoft-n5-active wf-proximasoft-n6-active wf-proximasoft-i7-active wf-proximasoft-n7-active wf-graphie-n4-active wf-graphie-i4-active wf-graphie-n5-active wf-graphie-i5-active wf-graphie-i6-active wf-graphie-n6-active wf-graphie-i7-active wf-graphie-n7-active wf-graphie-i8-active wf-graphie-n8-active wf-active" data-scrapbook-source="https://account.veygo.com/purchases" data-scrapbook-create="20250408005449074"><head><style type="text/css" id="operaUserStyle"></style><meta property="og:url" content="https://bp.veygo.com/iaf/veygo_raf1/og"><meta charset="UTF-8"><link rel="shortcut icon" href="favicon.ico"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="apple-touch-icon" href="https://assets.veygo.com/images/logo192.png"><meta name="theme-color" content="#000000"><title>Veygo Account</title><link href="main.e995c3ca.css" rel="stylesheet"><style data-styled="active" data-styled-version="6.1.13">.gXfxYU { position: fixed; cursor: pointer; bottom: 20px; right: 20px; padding: 10px 20px; background-color: rgb(0, 220, 205); border: none; border-radius: 5px; transition: background-color 0.3s; box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 5px; z-index: 1; }
+@media (max-width: 1024px) {
+  .gXfxYU { bottom: 0px; right: 0px; width: 40%; border-radius: 5px 0px 0px; padding: 10px; z-index: 1; height: auto; }
+}
+.hKgDqs { color: rgb(0, 84, 101); font-size: 16px; text-align: center; font-family: proxima-soft, sans-serif; }</style><style data-styled="active" data-styled-version="6.1.16">.eaLBXn { border-radius: 8px; background-color: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px 0px, rgba(0, 0, 0, 0.08) 0px 1px 3px 0px; padding: 8px 24px; }
+.ghGzgN { border-radius: 8px; background-color: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 10px 0px, rgba(0, 0, 0, 0.08) 0px 1px 3px 0px; }
+.eSNRSz { height: 30px; border-radius: 15px; background-color: rgb(243, 244, 247); border-width: 0px; padding: 2px 16px; display: flex; flex-direction: row; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; cursor: pointer; }
+.eSNRSz:focus { outline: 0px; }
+.eSNRSz:disabled { cursor: not-allowed; }
+.kBEAfO { height: 30px; border-radius: 15px; background-color: rgba(11, 123, 251, 0.2); border-width: 0px; padding: 2px 16px; display: flex; flex-direction: row; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; cursor: pointer; }
+.kBEAfO:focus { outline: 0px; }
+.kBEAfO:disabled { cursor: not-allowed; }
+.gNjstr { height: 30px; border-radius: 15px; background-color: rgb(2, 2, 2); border-width: 0px; padding: 2px 16px; display: flex; flex-direction: row; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; cursor: pointer; }
+.gNjstr:focus { outline: 0px; }
+.gNjstr:disabled { cursor: not-allowed; }
+.gIGsqT { color: rgb(11, 123, 251); font-family: proxima-soft; font-size: 16px; font-weight: bold; line-height: 20px; display: inline-block; text-align: center; padding-bottom: 1px; }
+.jhHfWy { color: rgb(255, 255, 255); font-family: proxima-soft; font-size: 16px; font-weight: bold; line-height: 20px; display: inline-block; text-align: center; padding-bottom: 1px; }
+.inTezP { display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; height: 58px; width: 100%; border: 0.5px solid rgb(23, 23, 23); border-radius: 30px; color: rgb(255, 255, 255); background-color: rgb(23, 23, 23); padding-top: 16px; padding-bottom: 16px; cursor: pointer; transition: 0.5s; }
+.inTezP:focus { outline: 0px; }
+.inTezP:hover { background-color: rgb(23, 23, 23); color: rgb(255, 255, 255); }
+.inTezP:active { background-color: rgb(23, 23, 23); }
+.inTezP:disabled { opacity: 1; background-color: rgb(215, 215, 215); border: 0px; box-shadow: none; color: rgb(158, 158, 158); cursor: not-allowed; }
+.lfpKwe { display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; height: 58px; width: 100%; border: 0.5px solid rgb(22, 179, 179); border-radius: 30px; color: rgb(255, 255, 255); background-color: rgb(54, 206, 206); padding-top: 16px; padding-bottom: 16px; cursor: pointer; transition: 0.5s; }
+.lfpKwe:focus { outline: 0px; }
+.lfpKwe:hover { background-color: rgb(23, 23, 23); color: rgb(255, 255, 255); }
+.lfpKwe:active { background-color: rgb(54, 206, 206); }
+.lfpKwe:disabled { opacity: 1; background-color: rgb(215, 215, 215); border: 0px; box-shadow: none; color: rgb(158, 158, 158); cursor: not-allowed; }
+.jEIZxQ { font-size: 16px; font-weight: bold; line-height: 15px; text-align: center; font-family: proxima-soft; }
+.kwfQCE { border-top: 0.5px solid rgb(203, 203, 203); width: calc(100% - 48px); align-self: flex-end; }
+@media (max-width: 844px) {
+  .kwfQCE { width: 100%; }
+}
+.gvKKWs { border-top: 0.5px solid rgb(203, 203, 203); width: calc(100% + 0px); align-self: flex-end; }
+@media (max-width: 844px) {
+  .gvKKWs { width: 100%; }
+}
+.iZuKUo { display: flex; background-color: rgb(246, 123, 160); height: 7px; width: 7px; border-radius: 50%; }
+.fQcBxI { border: 1px solid rgb(219, 52, 127); height: 9px; width: 9px; border-radius: 50%; display: flex; -webkit-box-align: center; align-items: center; margin-right: 5px; -webkit-box-pack: center; justify-content: center; }
+.jGbsdi { display: flex; flex-direction: column; }
+.fCSUrQ { display: flex; flex-direction: row; align-items: flex-start; margin-bottom: 22px; }
+.fCSUrQ:last-child { margin-bottom: 0px; }
+.irvWsS { height: 17px; width: auto; margin-right: 8px; }
+.iVvOxc { margin: 0px 4px; display: flex; flex-direction: row; flex: 1 1 0%; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; background-color: rgb(1, 217, 203); border: 1px solid rgb(203, 203, 203); border-radius: 4px; box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 3px 0px; color: rgb(255, 255, 255); height: 64px; position: relative; }
+.bZgKog { margin: 0px 4px; display: flex; flex-direction: row; flex: 1 1 0%; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; background-color: rgb(255, 255, 255); border: 1px solid rgb(203, 203, 203); border-radius: 4px; box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 3px 0px; color: rgb(54, 67, 68); height: 64px; position: relative; }
+.bZgKog:hover { background-color: rgb(242, 249, 250); }
+.bIjRnf { position: absolute; opacity: 0; width: 100%; height: 100%; }
+.hGoats { position: absolute; right: 0px; top: 0px; }
+.kCnhBu { cursor: pointer; font-family: proxima-soft; font-size: 16px; font-weight: bold; text-align: center; }
+.dfSxIf { display: flex; flex-direction: row; }
+@media (max-width: 844px) {
+  .dfSxIf { flex-direction: column; }
+}
+.WhgYR { display: flex; flex-direction: column; width: 70%; padding-top: 16px; padding-bottom: 16px; }
+@media (max-width: 844px) {
+  .WhgYR { width: 100%; order: 2; }
+}
+.eUQozj { display: flex; flex-direction: column; width: 30%; max-height: 162px; overflow: hidden; margin-left: 16px; min-width: 200px; }
+@media (max-width: 844px) {
+  .eUQozj { width: 100%; order: 1; margin-left: 0px; }
+}
+@media (max-width: 844px) {
+  .eUQozj > svg { align-self: center; }
+}
+.AjzXc { color: rgb(54, 67, 68); font-family: Graphie; font-size: 20px; font-weight: bold; letter-spacing: normal; line-height: 25px; }
+.dEXiQk { color: rgb(117, 117, 117); font-family: Proxima-Soft; font-size: 16px; letter-spacing: normal; line-height: 20px; margin-top: 8px; margin-bottom: 16px; }
+.csuWzo { max-width: 176px; max-height: 64px; }
+@media (max-width: 844px) {
+  .csuWzo { max-width: 100%; }
+}
+.leAhVL { position: fixed; top: 0px; bottom: 0px; left: 0px; transition: width 0.5s; width: 0px; overflow: auto; z-index: 2; background-color: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 3px 0px, rgba(0, 0, 0, 0.08) 0px 0px 10px 0px; }
+.kfIdEa { position: fixed; inset: 0px; background-color: rgba(0, 0, 0, 0.3); z-index: 1; backdrop-filter: blur(2px); display: none; }
+.jelNXp { display: flex; flex-direction: column; align-items: flex-end; }
+.UyYRh { position: fixed; width: 100%; display: flex; -webkit-box-pack: end; justify-content: flex-end; background-color: rgb(255, 255, 255); }
+.kCUFiK { padding: 24px 21px 20px; }
+.hUFLPr { width: 400px; margin: 70px 56px 0px 0px; }
+.iZgqpf { width: 100%; }
+.fRgOwj { display: flex; padding: 16px; flex: 1 1 0%; flex-direction: column; width: 100%; box-sizing: border-box; }
+.kaQDQA { flex: 0.8 1 0%; letter-spacing: -0.05px; line-height: 17px; flex-direction: column; display: flex; margin-top: 12px; padding: 0px 18px; }
+@media (max-width: 1023px) {
+  .kaQDQA { display: flex; flex-direction: column; }
+}
+.kxUPw { color: rgb(54, 67, 68); font-family: proxima-soft; font-size: 14px; margin-top: 8px; }
+.jUotlV { margin-bottom: 8px; margin-top: 16px; }
+.bvTTUn { text-transform: capitalize; font-weight: bold; font-size: 16px; line-height: 19px; }
+.jxyULs { display: flex; }
+.lmtGVa { margin-right: 16px; }
+@media (min-width: 1024px) {
+  .lmtGVa { display: flex; }
+}
+@media (max-width: 844px) {
+  .lmtGVa { margin-top: 8px; }
+}
+.jrrWeD { display: flex; -webkit-box-align: center; align-items: center; }
+@media (max-width: 844px) {
+  .jrrWeD { margin-top: 4px; }
+}
+.cEWqfd { height: 16px; color: rgb(219, 52, 127); font-family: proxima-soft; font-size: 14px; font-weight: 600; letter-spacing: 0.28px; line-height: 17px; }
+.hlzAQq { display: flex; flex-direction: column; }
+.cXMexi { display: flex; -webkit-box-align: center; align-items: center; color: rgb(54, 67, 68); font-family: Graphie; font-size: 20px; font-weight: bold; line-height: 25px; }
+.kFRKtl { box-sizing: border-box; height: 20px; width: 74px; border: 0.5px solid rgb(203, 203, 203); border-radius: 4px; background-color: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 3px 0px; font-size: 12px; font-weight: bold; letter-spacing: 0.43px; line-height: 14px; text-align: center; padding: 1px 4px; margin-left: 4px; }
+@media (max-width: 844px) {
+  .kFRKtl { display: none; }
+}
+.byILnM { display: flex; flex-direction: row; -webkit-box-pack: justify; justify-content: space-between; border-top: 0.5px solid rgb(203, 203, 203); margin-top: 20px; padding: 16px 8px 0px; }
+@media (max-width: 844px) {
+  .byILnM { flex-direction: row; -webkit-box-align: stretch; align-items: stretch; }
+}
+.cpChUW { display: flex; margin: 0px -4px 16px; }
+.laHMUS { margin: 0px; color: rgb(54, 67, 68); font-family: proxima-soft; font-size: 14px; letter-spacing: 0px; line-height: 23px; }
+.frvtkF { display: flex; width: 99%; height: 48px; background-color: rgb(251, 251, 252); box-shadow: rgba(0, 0, 0, 0.08) 0px 0px 3px 0px; border-left: 4px solid rgb(48, 198, 226); min-height: 48px; flex-direction: row; }
+@media (min-width: 1024px) {
+  .frvtkF { display: none; }
+}
+.gsVJPy { display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: end; justify-content: flex-end; margin-left: 18.75px; margin-right: 17.5px; height: 100%; }
+@media (min-width: 1024px) {
+  .gsVJPy { display: none; }
+}
+.jLQISK { display: flex; -webkit-box-pack: center; justify-content: center; box-sizing: border-box; height: 24.5px; width: 27.5px; }
+@media (min-width: 1024px) {
+  .jLQISK { display: none; }
+}
+.kzdnwW { display: flex; height: 100%; width: 100%; -webkit-box-pack: start; justify-content: flex-start; -webkit-box-align: center; align-items: center; font-family: Proxima-Soft; font-weight: bold; color: rgb(48, 198, 226); }
+.ehYcUF { display: flex; height: 100%; width: 100px; -webkit-box-pack: center; justify-content: center; -webkit-box-align: center; align-items: center; }
+.cOkcGX { height: 25px; width: 5px; }
+.jXlBvt { height: 33px; width: 100%; border-radius: 17px; color: rgb(255, 255, 255); background-color: transparent; border: 1px solid rgb(255, 255, 255); padding: 2px 18px; cursor: pointer; transition: 0.5s; }
+.jXlBvt:focus { outline: 0px; }
+.jXlBvt:hover { background-color: rgb(255, 255, 255); color: rgb(4, 70, 86); }
+.bWGxpG { height: 30px; width: 100%; border-radius: 17px; color: rgb(11, 123, 251); background-color: rgb(243, 244, 247); border: 0px solid rgb(11, 123, 251); padding: 2px 18px; cursor: pointer; transition: 0.5s; }
+.bWGxpG:focus { outline: 0px; }
+.bWGxpG:hover { background-color: rgb(11, 123, 251); color: rgb(242, 249, 250); }
+.fpCBll { font-size: 16px; font-weight: bold; line-height: 20px; text-align: center; }
+.kHWrJl { display: flex; flex-direction: column; }
+.bmSoQL { color: rgb(117, 117, 117); font-size: 12px; text-align: center; margin-bottom: 8px; }
+.dVhWDg { display: flex; -webkit-box-pack: center; justify-content: center; color: rgb(54, 67, 68); font-size: 16px; font-weight: bold; }
+.gxCYFb { margin-right: 6px; }
+.kmrmWe { height: 36px; color: rgb(54, 67, 68); font-family: graphie; font-size: 32px; font-weight: 800; line-height: 36px; margin-bottom: 32px; margin-left: 8px; }
+.icJKBC { height: 48px; display: flex; border-left: 4px solid rgb(48, 198, 226); margin-top: 16px; cursor: pointer; opacity: 1; }
+.icJKBC:hover { background-color: rgb(251, 251, 252); }
+.dyCOJD { height: 48px; display: flex; border-left: 4px solid rgb(255, 255, 255); margin-top: 16px; cursor: pointer; opacity: 1; }
+.dyCOJD:hover { background-color: rgb(251, 251, 252); }
+.fFJFcd { flex: 0.7 1 0%; letter-spacing: 0.32px; line-height: 19px; display: flex; -webkit-box-align: center; align-items: center; }
+.kcEOYJ { height: 19px; width: 72px; color: rgb(48, 198, 226); font-size: 16px; font-weight: bold; display: flex; -webkit-box-align: center; align-items: center; text-align: left; }
+.lpmVUa { height: 19px; width: 72px; color: rgb(54, 67, 68); font-size: 16px; font-weight: bold; display: flex; -webkit-box-align: center; align-items: center; text-align: left; }
+.gZDHnH { margin-left: 12px; display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: end; justify-content: flex-end; margin-right: 10px; }
+.haIQHv { height: 40px; width: 40px; display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; }
+.kHcRon { height: 40px; }
+.imiXwu { height: 60px; min-height: 60px; width: 100%; background-color: rgb(4, 70, 86); box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 3px 0px; display: flex; }
+.fhPBnH { min-width: 360px; margin-left: 24px; flex: 1 1 0%; display: flex; -webkit-box-align: center; align-items: center; }
+@media (max-width: 1023px) {
+  .fhPBnH { min-width: 98px; }
+}
+.dCKUxd { cursor: pointer; text-decoration: none; }
+.dCKUxd:hover { opacity: 0.7; }
+.cKnuLT { width: 136px; }
+.bnkDBm { min-width: 240px; -webkit-box-pack: center; justify-content: center; display: flex; -webkit-box-align: center; align-items: center; margin-right: 16px; }
+@media (max-width: 1023px) {
+  .bnkDBm { display: none; }
+}
+.bfcMec { min-width: 40px; -webkit-box-pack: center; justify-content: center; display: flex; -webkit-box-align: center; align-items: center; margin-right: 16px; }
+@media (min-width: 1024px) {
+  .bfcMec { display: none; }
+}
+.bHHQED { height: 33px; width: 33px; border-radius: 23px; background-color: rgb(4, 70, 86); box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 4px 0px; display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; }
+.kmZLZq { height: 33px; width: 240px; }
+.eNQtGh { flex: 0.4 1 0%; display: flex; -webkit-box-pack: end; justify-content: flex-end; -webkit-box-align: center; align-items: center; margin-right: 8px; }
+.kamqUx { flex: 0.6 1 0%; display: flex; -webkit-box-pack: start; justify-content: flex-start; -webkit-box-align: center; align-items: center; }
+.glAxDN { fill: red; }
+.kEbVzd { min-width: 58px; display: flex; -webkit-box-align: center; align-items: center; }
+.hETWWS { height: 32px; width: 32px; border-radius: 23px; background: rgb(255, 255, 255); display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; }
+.kkbEWv { height: 16px; width: 16px; }
+.fIShfv { display: flex; }
+.klqfwT { margin-top: 16px; display: flex; -webkit-box-pack: center; justify-content: center; }
+.ilqhSN { width: 101px; }
+.Iykfb { display: flex; flex-direction: row; align-items: flex-start; }
+.fNQILn { width: 32px; height: 32px; margin-top: 2px; }
+.hsHHkQ { margin-left: 16px; margin-top: 5px; display: flex; flex-direction: column; }
+.jXSTMi { font-family: graphie; font-weight: bold; font-size: 20px; color: rgb(54, 67, 68); padding-bottom: 8px; }
+.jgKXYY { font-family: proxima-soft; font-size: 14px; color: rgb(117, 117, 117); }
+.boAlXX { top: 108px; background-color: rgb(255, 255, 255); height: calc(100% - 108px); z-index: 1; width: 100%; overflow: scroll; position: absolute; display: flex; flex: 1 1 0%; flex-direction: column; animation-name: gJXFxD; animation-duration: 0.4s; animation-timing-function: ease; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: forwards; animation-play-state: running; }
+@media (min-width: 1024px) {
+  .boAlXX { display: none; }
+}
+.cLmTcN { top: 108px; background-color: rgb(255, 255, 255); height: calc(100% - 108px); z-index: 1; width: 100%; overflow: scroll; position: absolute; display: flex; flex: 1 1 0%; flex-direction: column; animation-name: RfhiP; animation-duration: 0.4s; animation-timing-function: ease; animation-delay: 0s; animation-iteration-count: 1; animation-direction: normal; animation-fill-mode: forwards; animation-play-state: running; }
+@media (min-width: 1024px) {
+  .cLmTcN { display: none; }
+}
+.cWquoq { border: 0.5px solid rgb(203, 203, 203); border-radius: 8px; background-color: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 8px 0px; height: 64px; display: flex; margin-top: 8px; }
+.dRKNzu { border: 0.5px solid rgb(203, 203, 203); border-radius: 8px; background-color: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 8px 0px; height: 64px; display: flex; margin-top: 8px; margin-bottom: 8px; }
+.jgYkuU { margin-bottom: 40px; }
+.jgYkxS { margin-bottom: 57px; }
+.etZXxU { margin-bottom: 0px; }
+.bXSTmF { -webkit-box-pack: center; justify-content: center; -webkit-box-align: center; align-items: center; display: flex; flex: 1 1 0%; }
+.gvDKHk { width: 408px; }
+.fwrdgw { height: 114px; border: 0.5px solid rgb(203, 203, 203); border-radius: 8px; background-color: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 8px 0px; margin-bottom: 57px; margin-top: 8px; display: flex; }
+.egHPDx { height: 172px; border: 0.5px solid rgb(203, 203, 203); border-radius: 8px; background-color: rgb(255, 255, 255); box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 8px 0px; display: flex; }
+.gdrDhA { height: 19px; color: rgb(54, 67, 68); font-size: 16px; font-weight: bold; letter-spacing: 0.32px; line-height: 19px; }
+.bRThHs { display: inherit; position: relative; background-color: rgb(243, 244, 247); border-radius: 8px; padding: 16px; margin-top: 16px; }
+.eZWczC { display: block; position: absolute; top: -7px; left: 90px; width: 20px; height: 20px; background-color: rgb(243, 244, 247); border-radius: 2px; transform: rotate(45deg); }
+@media (min-width: 1024px) {
+  .cVGdph { display: flex; -webkit-box-align: center; align-items: center; -webkit-box-pack: center; justify-content: center; }
+}
+@media (max-width: 1023px) {
+  .cVGdph { padding-bottom: 32px; }
+}
+.gEhjdi { flex: 1 1 0%; }
+.fOPvxx { height: 1px; background: rgb(203, 203, 203); margin-right: 16px; margin-left: 16px; margin-bottom: 16px; }
+@media (max-width: 1023px) {
+  .fOPvxx { max-width: 183px; margin-left: auto; margin-right: auto; }
+}
+.bxOHGA { display: none; flex-direction: column; width: 215px; height: 100%; box-shadow: rgba(0, 0, 0, 0.08) 0px 1px 3px 0px; background-color: rgb(255, 255, 255); }
+@media (min-width: 1024px) {
+  .bxOHGA { display: flex; }
+}
+.gMZdYg { margin-bottom: 188px; }
+@media (max-width: 844px) {
+  .gMZdYg { flex: 1 1 0%; }
+}
+.kkuddP { flex: 1 1 0%; display: flex; flex-direction: column; margin-bottom: 100px; }
+.dTBxnb { display: flex; flex-direction: column; }
+.lejhqK { color: rgb(54, 67, 68); font-family: graphie; font-size: 24px; font-weight: 900; letter-spacing: 0px; line-height: 30px; margin: 8px 0px 16px; }
+.blAIbw { font-weight: bold; }
+.eYWpcA { display: flex; flex-direction: column; gap: 8px; margin: 24px 0px 8px; }
+.eZJJRA { display: flex; flex-direction: column; gap: 16px; background-color: rgb(251, 251, 252); border-radius: 4px; padding: 20px; margin-bottom: 32px; }
+.bHxQOx { margin: 0px; color: rgb(54, 67, 68); font-family: graphie; font-size: 16px; font-weight: 800; letter-spacing: 0px; line-height: 20px; }
+.cNeUTv { margin: -5px 0px; }
+.cpiwpQ { flex: 1 1 0%; display: flex; flex-direction: column; height: 100%; }
+.ccVmVG { display: flex; flex: 1 1 0%; flex-direction: row; background-color: rgb(251, 251, 252); }
+.jkKoFz { display: flex; flex-direction: column; margin-bottom: 16px; }
+@media (max-width: 844px) {
+  .jkKoFz { flex-shrink: 0; }
+}
+.lgbiro { margin-left: 8px; margin-top: 24px; margin-bottom: 8px; height: 24px; color: rgb(117, 117, 117); font-size: 18px; font-weight: bold; letter-spacing: normal; line-height: 24px; font-family: graphie; }
+.WrnKK { display: flex; flex-wrap: wrap; -webkit-box-pack: justify; justify-content: space-between; }
+.blpAFd { width: 100%; display: flex; }
+.blpAFd > div:nth-child(2n) { width: calc(60% - 16px); }
+.blpAFd > div:nth-child(2n+1) { margin-right: 32px; width: calc(40% - 16px); }
+@media (max-width: 844px) {
+  .blpAFd { flex-direction: column; }
+  .blpAFd > div:nth-child(n) { width: 100%; margin-bottom: 32px; }
+}
+.DxQji { flex: 1 1 0%; display: flex; margin-left: 48px; background-color: rgb(251, 251, 252); max-width: 100%; }
+@media (max-width: 1023px) {
+  .DxQji { -webkit-box-pack: center; justify-content: center; margin-left: 0px; }
+}
+@media (max-width: 844px) {
+  .DxQji { margin-left: 16px; margin-right: 16px; -webkit-box-pack: center; justify-content: center; }
+}
+.fyfJKl { flex: 1 1 0%; display: flex; max-width: 720px; }
+.iiyzNR { display: flex; flex: 1 1 0%; flex-direction: column; margin-left: 8px; padding-bottom: 16px; }
+.ieTaOU { display: flex; flex: 1 1 0%; flex-direction: column; margin-left: 8px; padding-bottom: 16px; margin-top: 23px; }
+.gQSkux { width: 100%; display: flex; align-self: center; }
+@media (max-width: 844px) {
+  .gQSkux { margin-bottom: 16px; }
+}
+.ggcLWI { margin-bottom: 32px; width: calc(50% - 16px); }
+@media (max-width: 844px) {
+  .ggcLWI { width: 100%; }
+}
+.cxmWXt { margin-top: 48px; flex: 1 1 0%; display: flex; flex-direction: column; }
+@media (max-width: 844px) {
+  .cxmWXt { margin-top: 32px; }
+}
+.dHbqIr { display: flex; flex-direction: column; margin-bottom: 16px; }
+.dHbqIr > div:first-child { margin-bottom: 40px; }
+.fjdlLZ { margin-top: 48px; flex: 1 1 0%; display: flex; flex-direction: column; }
+@media (max-width: 844px) {
+  .fjdlLZ { margin-top: 32px; }
+}
+.fSPazv { display: flex; flex-direction: column; }
+@media (max-width: 844px) {
+  .fSPazv { flex-shrink: 0; }
+}
+.gpuvUy { color: rgb(11, 123, 251); cursor: pointer; font-weight: bold; text-decoration: none; }
+@-webkit-keyframes gJXFxD { 
+  0% { height: calc(100% - 108px); }
+  100% { height: 0%; }
+}
+@keyframes gJXFxD { 
+  0% { height: calc(100% - 108px); }
+  100% { height: 0%; }
+}
+@-webkit-keyframes RfhiP { 
+  0% { height: 0%; }
+  100% { height: calc(100% - 108px); }
+}
+@keyframes RfhiP { 
+  0% { height: 0%; }
+  100% { height: calc(100% - 108px); }
+}</style><style type="text/css">.tk-proxima-soft{font-family:"proxima-soft",sans-serif;}.tk-graphie{font-family:"graphie",sans-serif;}</style><style type="text/css">@font-face{font-family:tk-proxima-soft-n4;src:url("l-7") format("woff2"),url("d-2") format("woff"),url("a-1") format("opentype");font-weight:400;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-proxima-soft-i4;src:url("l-5") format("woff2"),url("d-7") format("woff"),url("a") format("opentype");font-weight:400;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-proxima-soft-n5;src:url("l-4") format("woff2"),url("d") format("woff"),url("a-11") format("opentype");font-weight:500;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-proxima-soft-n6;src:url("l-8") format("woff2"),url("d-3") format("woff"),url("a-14") format("opentype");font-weight:600;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-proxima-soft-i7;src:url("l-1") format("woff2"),url("d-13") format("woff"),url("a-15") format("opentype");font-weight:700;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-proxima-soft-n7;src:url("l") format("woff2"),url("d-1") format("woff"),url("a-3") format("opentype");font-weight:700;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-graphie-n4;src:url("l-15") format("woff2"),url("d-15") format("woff"),url("a-10") format("opentype");font-weight:400;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-graphie-i4;src:url("l-3") format("woff2"),url("d-11") format("woff"),url("a-7") format("opentype");font-weight:400;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-graphie-n5;src:url("l-9") format("woff2"),url("d-9") format("woff"),url("a-6") format("opentype");font-weight:500;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-graphie-i5;src:url("l-2") format("woff2"),url("d-6") format("woff"),url("a-12") format("opentype");font-weight:500;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-graphie-i6;src:url("l-6") format("woff2"),url("d-8") format("woff"),url("a-8") format("opentype");font-weight:600;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-graphie-n6;src:url("l-12") format("woff2"),url("d-10") format("woff"),url("a-4") format("opentype");font-weight:600;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-graphie-i7;src:url("l-11") format("woff2"),url("d-5") format("woff"),url("a-5") format("opentype");font-weight:700;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-graphie-n7;src:url("l-10") format("woff2"),url("d-4") format("woff"),url("a-2") format("opentype");font-weight:700;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-graphie-i8;src:url("l-14") format("woff2"),url("d-14") format("woff"),url("a-13") format("opentype");font-weight:800;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:tk-graphie-n8;src:url("l-13") format("woff2"),url("d-12") format("woff"),url("a-9") format("opentype");font-weight:800;font-style:normal;font-stretch:normal;font-display:auto;}</style><style type="text/css">@font-face{font-family:proxima-soft;src:url("l-7") format("woff2"),url("d-2") format("woff"),url("a-1") format("opentype");font-weight:400;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:proxima-soft;src:url("l-5") format("woff2"),url("d-7") format("woff"),url("a") format("opentype");font-weight:400;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:proxima-soft;src:url("l-4") format("woff2"),url("d") format("woff"),url("a-11") format("opentype");font-weight:500;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:proxima-soft;src:url("l-8") format("woff2"),url("d-3") format("woff"),url("a-14") format("opentype");font-weight:600;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:proxima-soft;src:url("l-1") format("woff2"),url("d-13") format("woff"),url("a-15") format("opentype");font-weight:700;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:proxima-soft;src:url("l") format("woff2"),url("d-1") format("woff"),url("a-3") format("opentype");font-weight:700;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:graphie;src:url("l-15") format("woff2"),url("d-15") format("woff"),url("a-10") format("opentype");font-weight:400;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:graphie;src:url("l-3") format("woff2"),url("d-11") format("woff"),url("a-7") format("opentype");font-weight:400;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:graphie;src:url("l-9") format("woff2"),url("d-9") format("woff"),url("a-6") format("opentype");font-weight:500;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:graphie;src:url("l-2") format("woff2"),url("d-6") format("woff"),url("a-12") format("opentype");font-weight:500;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:graphie;src:url("l-6") format("woff2"),url("d-8") format("woff"),url("a-8") format("opentype");font-weight:600;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:graphie;src:url("l-12") format("woff2"),url("d-10") format("woff"),url("a-4") format("opentype");font-weight:600;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:graphie;src:url("l-11") format("woff2"),url("d-5") format("woff"),url("a-5") format("opentype");font-weight:700;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:graphie;src:url("l-10") format("woff2"),url("d-4") format("woff"),url("a-2") format("opentype");font-weight:700;font-style:normal;font-stretch:normal;font-display:auto;}@font-face{font-family:graphie;src:url("l-14") format("woff2"),url("d-14") format("woff"),url("a-13") format("opentype");font-weight:800;font-style:italic;font-stretch:normal;font-display:auto;}@font-face{font-family:graphie;src:url("l-13") format("woff2"),url("d-12") format("woff"),url("a-9") format("opentype");font-weight:800;font-style:normal;font-stretch:normal;font-display:auto;}</style><style type="text/css"></style></head><body style="overflow: auto;"><noscript><iframe src="index_1.html" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"><div class="SiteContent__RootContainer-sc-1965hhg-0 cpiwpQ"><div class="styles__Container-sc-12wos7s-0 imiXwu"><div class="styles__VeygoLogoContainer-sc-12wos7s-1 fhPBnH"><a href="https://www.veygo.com/" rel="noopener noreferrer" target="_blank" class="styles__VeygoLogoLink-sc-12wos7s-2 dCKUxd"><img src="veygo-logo.b180a1259de2724c450594a21736389a.svg" alt="veygo-icon" class="styles__VeygoLogo-sc-12wos7s-3 cKnuLT"></a></div><div data-testid="help-container" class="styles__GetHelpContainer-sc-12wos7s-4 bnkDBm"><div class="styles__GetHelpWrapper-sc-12wos7s-7 kmZLZq"><a href="https://www.veygo.com/help" target="_blank" rel="noopener noreferrer"><button height="33" id="getHelpButton" type="button" class="styles__Button-sc-10tn4w0-0 jXlBvt"><span class="styles__PillButtonText-sc-10tn4w0-1 fpCBll"><div class="styles__GetHelpPillButtonContainer-sc-12wos7s-14 fIShfv"><div class="styles__GetHelpIconWrapper-sc-12wos7s-8 eNQtGh"><img src="help-icon.98855d6a92a9ac2220d934b3fd603dec.svg" alt="help-icon" class="styles__GetHelpIcon-sc-12wos7s-10 glAxDN"></div><div class="styles__GetHelpTextWrapper-sc-12wos7s-9 kamqUx">Get Help</div></div></span></button></a></div></div><div class="styles__GetHelpMobileContainer-sc-12wos7s-5 bfcMec"><a href="https://www.veygo.com/help" rel="noopener noreferrer" target="_blank" class="styles__GetHelpMobileButtonWrapper-sc-12wos7s-6 bHHQED"><img src="help-icon.98855d6a92a9ac2220d934b3fd603dec.svg" alt="help-icon" class="styles__GetHelpIcon-sc-12wos7s-10 glAxDN"></a></div><div class="styles__MyAccountContainer-sc-12wos7s-11 kEbVzd"><a class="styles__MyAccountIconWrapper-sc-12wos7s-12 hETWWS"><img src="782c54eefecb02edad186dc3bc487e3aa4120e5d.png" alt="account-icon" class="styles__MyAccountIcon-sc-12wos7s-13 kkbEWv"></a></div></div><div class="styles__StyledBreadcrumb-sc-1b4d1il-0 frvtkF"><div class="styles__HouseWrapper-sc-1b4d1il-1 gsVJPy"><img src="house-img.9b506283d05f3e4fa923bb3e82226467.svg" class="styles__IconImgHolder-sc-1b4d1il-2 jLQISK"></div><div class="styles__TitleWrapper-sc-1b4d1il-3 kzdnwW">Overview</div><div id="kebabIcon" data-testid="kebabIcon" class="styles__KebabWrapper-sc-1b4d1il-4 ehYcUF"><img src="26aba01beb76bb55ad5c865f954c09ad35fd386c.png" class="styles__KebabIcon-sc-1b4d1il-5 cOkcGX"></div></div><div class="SiteContent__RootContentWrapper-sc-1965hhg-1 ccVmVG"><div class="styles__DesktopNavMenu-sc-pb1icm-4 bxOHGA"><div class="styles__LogoutSpacer-sc-pb1icm-6 kkuddP"><div class="styles__MenuItemsWrapper-sc-pb1icm-5 gMZdYg"><a href="https://account.veygo.com/profile" style="text-decoration: none;"><div id="navProfile" class="styles__SidebarItemContainer-sc-mccoob-0 dyCOJD"><div class="styles__SidebarIconWrapper-sc-mccoob-3 gZDHnH"><div class="styles__SidebarIconSpacer-sc-mccoob-4 haIQHv"><img src="profile-img.ce32ae1ea54248438f80c3d0dbb90a0d.svg" class="styles__SidebarIcon-sc-mccoob-5 kHcRon"></div></div><div class="styles__SidebarLabelWrapper-sc-mccoob-1 fFJFcd"><span class="styles__SidebarItemLabel-sc-mccoob-2 lpmVUa">Profile</span></div></div></a><a href="https://account.veygo.com/notifications" style="text-decoration: none;"><div id="navNotifications" class="styles__SidebarItemContainer-sc-mccoob-0 dyCOJD"><div class="styles__SidebarIconWrapper-sc-mccoob-3 gZDHnH"><div class="styles__SidebarIconSpacer-sc-mccoob-4 haIQHv"><img src="notifications-icon.18bb7d0914bd11f1fbe0287241afe1c2.svg" class="styles__SidebarIcon-sc-mccoob-5 kHcRon"></div></div><div class="styles__SidebarLabelWrapper-sc-mccoob-1 fFJFcd"><span class="styles__SidebarItemLabel-sc-mccoob-2 lpmVUa">Marketing Preferences</span></div></div></a><a href="" style="text-decoration: none;"><div id="navPurchases" class="styles__SidebarItemContainer-sc-mccoob-0 icJKBC"><div class="styles__SidebarIconWrapper-sc-mccoob-3 gZDHnH"><div class="styles__SidebarIconSpacer-sc-mccoob-4 haIQHv"><img src="purchase-active.81d49efb575ad2bef286b5d25f8e1666.svg" class="styles__SidebarIcon-sc-mccoob-5 kHcRon"></div></div><div class="styles__SidebarLabelWrapper-sc-mccoob-1 fFJFcd"><span class="styles__SidebarItemLabel-sc-mccoob-2 kcEOYJ">Purchases</span></div></div></a><a href="https://account.veygo.com/referrals" style="text-decoration: none;"><div id="navReferrals" class="styles__SidebarItemContainer-sc-mccoob-0 dyCOJD"><div class="styles__SidebarIconWrapper-sc-mccoob-3 gZDHnH"><div class="styles__SidebarIconSpacer-sc-mccoob-4 haIQHv"><img src="RAF-icon-default.81867d817b68c973bb67b9dfeecd2177.svg" class="styles__SidebarIcon-sc-mccoob-5 kHcRon"></div></div><div class="styles__SidebarLabelWrapper-sc-mccoob-1 fFJFcd"><span class="styles__SidebarItemLabel-sc-mccoob-2 lpmVUa">Referrals</span></div></div></a></div><div class="styles__SidebarFooterContainer-sc-pb1icm-1 cVGdph"><div class="styles__SideBarStatusContainer-sc-pb1icm-2 gEhjdi"><div class="styles__SidebarDivider-sc-pb1icm-3 fOPvxx"></div><div class="styles__Container-sc-1l9jiau-0 fOlLDK"><div class="styles__Container-sc-mexaz3-0 kHWrJl"><div class="styles__TextWrapper-sc-mexaz3-1 bmSoQL">Logged in as</div><div class="styles__AvatarWrapper-sc-mexaz3-2 dVhWDg"><img src="account-icon-black.625f430a5917be5cd12e72974402fbb7.svg" class="styles__AvatarImage-sc-mexaz3-3 gxCYFb"> Oliver</div></div><div class="styles__ButtonContainer-sc-1l9jiau-1 klqfwT"><div class="styles__ButtonWrapper-sc-1l9jiau-2 ilqhSN"><button id="logoutButton" type="button" class="styles__Button-sc-10tn4w0-0 bWGxpG"><span class="styles__PillButtonText-sc-10tn4w0-1 fpCBll">Logout</span></button></div></div></div></div></div></div></div><div offset="108" class="styles__Container-sc-x7e8s0-0 cLmTcN"><div class="styles__MenuItemsWrapper-sc-pb1icm-5 gMZdYg"><a href="https://account.veygo.com/profile" style="text-decoration: none;"><div id="navProfile" class="styles__SidebarItemContainer-sc-mccoob-0 dyCOJD"><div class="styles__SidebarIconWrapper-sc-mccoob-3 gZDHnH"><div class="styles__SidebarIconSpacer-sc-mccoob-4 haIQHv"><img src="profile-img.ce32ae1ea54248438f80c3d0dbb90a0d.svg" class="styles__SidebarIcon-sc-mccoob-5 kHcRon"></div></div><div class="styles__SidebarLabelWrapper-sc-mccoob-1 fFJFcd"><span class="styles__SidebarItemLabel-sc-mccoob-2 lpmVUa">Profile</span></div></div></a><a href="https://account.veygo.com/notifications" style="text-decoration: none;"><div id="navNotifications" class="styles__SidebarItemContainer-sc-mccoob-0 dyCOJD"><div class="styles__SidebarIconWrapper-sc-mccoob-3 gZDHnH"><div class="styles__SidebarIconSpacer-sc-mccoob-4 haIQHv"><img src="notifications-icon.18bb7d0914bd11f1fbe0287241afe1c2.svg" class="styles__SidebarIcon-sc-mccoob-5 kHcRon"></div></div><div class="styles__SidebarLabelWrapper-sc-mccoob-1 fFJFcd"><span class="styles__SidebarItemLabel-sc-mccoob-2 lpmVUa">Marketing Preferences</span></div></div></a><a href="" style="text-decoration: none;"><div id="navPurchases" class="styles__SidebarItemContainer-sc-mccoob-0 icJKBC"><div class="styles__SidebarIconWrapper-sc-mccoob-3 gZDHnH"><div class="styles__SidebarIconSpacer-sc-mccoob-4 haIQHv"><img src="purchase-active.81d49efb575ad2bef286b5d25f8e1666.svg" class="styles__SidebarIcon-sc-mccoob-5 kHcRon"></div></div><div class="styles__SidebarLabelWrapper-sc-mccoob-1 fFJFcd"><span class="styles__SidebarItemLabel-sc-mccoob-2 kcEOYJ">Purchases</span></div></div></a><a href="https://account.veygo.com/referrals" style="text-decoration: none;"><div id="navReferrals" class="styles__SidebarItemContainer-sc-mccoob-0 dyCOJD"><div class="styles__SidebarIconWrapper-sc-mccoob-3 gZDHnH"><div class="styles__SidebarIconSpacer-sc-mccoob-4 haIQHv"><img src="RAF-icon-default.81867d817b68c973bb67b9dfeecd2177.svg" class="styles__SidebarIcon-sc-mccoob-5 kHcRon"></div></div><div class="styles__SidebarLabelWrapper-sc-mccoob-1 fFJFcd"><span class="styles__SidebarItemLabel-sc-mccoob-2 lpmVUa">Referrals</span></div></div></a></div><div class="styles__SidebarFooterContainer-sc-pb1icm-1 cVGdph"><div class="styles__SideBarStatusContainer-sc-pb1icm-2 gEhjdi"><div class="styles__SidebarDivider-sc-pb1icm-3 fOPvxx"></div><div class="styles__Container-sc-1l9jiau-0 fOlLDK"><div class="styles__Container-sc-mexaz3-0 kHWrJl"><div class="styles__TextWrapper-sc-mexaz3-1 bmSoQL">Logged in as</div><div class="styles__AvatarWrapper-sc-mexaz3-2 dVhWDg"><img src="account-icon-black.625f430a5917be5cd12e72974402fbb7.svg" class="styles__AvatarImage-sc-mexaz3-3 gxCYFb"> Oliver</div></div><div class="styles__ButtonContainer-sc-1l9jiau-1 klqfwT"><div class="styles__ButtonWrapper-sc-1l9jiau-2 ilqhSN"><button id="logoutButton" type="button" class="styles__Button-sc-10tn4w0-0 bWGxpG"><span class="styles__PillButtonText-sc-10tn4w0-1 fpCBll">Logout</span></button></div></div></div></div></div></div><div class="styles__FullPage-sc-wsujj6-0 DxQji"><div class="styles__Content-sc-wsujj6-1 fyfJKl"><div class="styles__Container-sc-1qhaogt-1 cxmWXt"><span id="pageTitle" class="styles__Title-sc-1cnp5ih-0 kmrmWe">Purchases</span><div class="styles__BannerCardContainer-sc-1qhaogt-2 dHbqIr"><div radius="8" class="styles__CardContainer-sc-ac5dx9-0 eaLBXn"><div class="styles__ContentContainer-sc-1m4k6hd-0 dfSxIf"><div class="styles__TextContainer-sc-1m4k6hd-1 WhgYR"><div class="styles__Title-sc-1m4k6hd-3 AjzXc">You have no active or upcoming policies</div><div class="styles__Text-sc-1m4k6hd-4 dEXiQk">Looks like you have not taken out any insurance policies with us. Let's do something about that right now, by starting a quote...</div><div class="styles__ButtonWrapper-sc-1m4k6hd-5 csuWzo"><button id="purchases-get-a-quote-banner-card" type="submit" class="styles__StyledButton-sc-1ssn917-0 lfpKwe"><span class="styles__ButtonText-sc-1ssn917-1 jEIZxQ">Get a quote</span></button></div></div><div class="styles__ImageContainer-sc-1m4k6hd-2 eUQozj"><svg width="200px" height="162px" viewBox="0 0 200 162" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>simplfied-image</title><defs><rect id="path-1" x="0" y="0" width="200" height="162"></rect><polygon id="path-3" points="0.233632666 0.362586458 134.11529 0.362586458 134.11529 135.020592 0.233632666 135.020592"></polygon></defs><g id="Purchase-+-Cancel-[Phase-1]" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="simplfied-image"><mask id="mask-2" fill="white"><use xlink:href="#path-1"></use></mask><g id="Mask"></g><g id="image" opacity="0.4" mask="url(#mask-2)" style="mix-blend-mode: luminosity;"><g transform="translate(0.000000, 1.000000)"><g id="person" stroke-width="1" fill="none" transform="translate(7.000000, 64.000000)"><path d="M48.542157,88.1464763 L47.5583732,141.646463 L38.7056577,144.618759 L32.6311103,101.025476 L29.8891103,101.025476 L26.9025277,141.646463 L17.0664745,140.655548 L11.1651103,88.1464763 L48.542157,88.1464763 Z" id="Combined-Shape" fill="#A8BDE8"></path><path d="M45.537311,23.0260874 C54.4127808,23.0260874 61.6744882,30.3404351 61.6744882,39.2802433 L61.289592,40.7090874 L58.093592,66.3490874 L60.7740472,72.8667878 C61.06539,73.5745844 60.7713702,74.3623733 60.1266684,74.6036982 L58.3362265,75.2732963 C57.7825414,75.4809166 57.1427473,75.2157738 56.819281,74.6454919 L54.440592,70.4470874 L53.272592,70.5420874 L48.5422016,88.1465213 L11.1651103,88.1465213 L0.0525920206,39.2802433 C0.0525920206,30.3404351 7.3147456,23.0260874 16.1897692,23.0260874 L45.537311,23.0260874 Z" id="Combined-Shape" fill="#36CECE"></path><path d="M31.3689507,1.65817956 C35.2581313,1.65817956 38.4401476,4.86326237 38.4401476,8.78108513 L38.4401476,12.8508033 C38.4401476,15.3152378 37.1807959,17.497768 35.2782846,18.7777348 L36.129438,23.2834557 C36.2869326,26.4647206 33.7692492,29.1309792 30.6073102,29.1309792 L28.6972973,29.1309792 C25.3171858,29.1309792 22.7281167,26.1029579 23.229601,22.736093 L24.4691223,14.4099009 C24.3566814,13.9077283 24.2973076,13.3859112 24.2973076,12.8508033 L24.2973076,8.78108513 C24.2973076,4.86326237 27.4793239,1.65817956 31.3689507,1.65817956 Z" id="Combined-Shape" fill="#FCC5DB"></path><path d="M37.4111677,0.823923293 C38.3066118,1.26567826 38.5372767,2.46196688 38.0183921,3.31941191 L37.1719489,4.71798645 C36.9471996,4.49827375 36.6388872,3.64495703 35.3455811,3.64495703 L31.9909048,3.64495703 L31.9909048,3.64495703 C30.3047143,3.64495703 28.9380476,4.84579326 28.9380476,6.32635075 L28.9379752,9.88949857 C28.7485211,9.83027711 28.5471215,9.79837985 28.3383166,9.79837985 C27.2224693,9.79837985 26.3176559,10.7093029 26.3176559,11.8332389 C26.3176559,12.1772847 26.4024388,12.5013707 26.552105,12.7854788 C24.7020751,12.4457624 23.2870665,10.8030163 23.2870665,8.84382063 L23.2870665,5.48819061 C23.2870665,3.28435913 25.0775084,1.48093831 27.2654792,1.48093831 L36.4603998,0.647760581 C36.8030511,0.617201743 37.1278559,0.68416155 37.4111677,0.823923293 Z" id="Combined-Shape" fill="#563D19"></path></g><g id="mag" stroke-width="1" fill="none" transform="translate(63.914227, 0.000000)"><g id="car" transform="translate(5.019055, 6.469647)"><path d="M124.252833,73.0893255 C124.252833,80.3913764 96.4380767,86.3113754 62.1264166,86.3113754 C27.8147565,86.3113754 8.52651283e-14,80.3913764 8.52651283e-14,73.0893255 C8.52651283e-14,65.7868252 27.8147565,59.8672755 62.1264166,59.8672755 C96.4380767,59.8672755 124.252833,65.7868252 124.252833,73.0893255" id="Fill-27" fill="#E5E5E5"></path><path d="M68.4112412,39.9770046 C68.4112412,39.9770046 78.4837658,42.8794934 91.316223,50.1819937 C104.14868,57.4844939 85.2886197,49.5803787 85.2886197,49.5803787 L69.8548982,41.6236952 L66.7946135,41.0166887 L68.4112412,39.9770046 Z" id="Fill-29" fill="#D9D9D9"></path><polygon id="Fill-31" fill="#151515" points="84.9506788 71.322806 105.72906 71.322806 105.72906 60.2578535 15.6028484 60.2578535 15.6028484 69.9416527 37.1535637 71.322806"></polygon><path d="M111.325712,70.5738201 L111.325712,71.4095213 C111.325712,71.4095213 110.586452,72.9119861 106.620194,72.998252 L104.752379,73.2008871 L105.054072,72.0452831 L106.993847,70.4561031 L111.325712,70.5738201 Z" id="Fill-33" fill="#383637"></path><path d="M52.5902799,51.0884598 C59.0134362,51.6779436 78.3696141,54.3207361 79.6626481,54.6244641 C80.956129,54.9277427 92.2443648,54.667597 96.7737829,55.2094549 C100.695792,55.6785258 108.264041,57.9825448 111.330583,58.3671471 C111.042746,57.8607841 110.759378,57.4348461 110.507297,57.1814399 C109.494055,56.162873 107.489472,54.6370445 101.131124,52.8757819 C94.7723289,51.1145193 91.3164912,50.181769 91.3164912,50.181769 C91.3164912,50.181769 91.2373805,51.2443675 88.392527,49.7922245 C85.5467796,48.34098 72.765275,41.3633249 68.5835861,40.3672231 C68.3033468,40.2153591 68.4110624,39.9772292 68.4110624,39.9772292 C68.4110624,39.9772292 63.3672019,38.2725786 49.2564601,38.3013339 C35.1452715,38.3300892 29.4837224,39.9772292 26.1785076,39.9772292 C25.8339072,40.5550312 25.6037265,40.6049037 25.7400471,41.2190991 C25.8759207,41.8332945 17.1831389,49.2508159 17.1831389,49.2508159 C17.1831389,49.2508159 16.74736,49.6345196 16.3723668,49.9957581 C17.1326332,49.8133416 18.201297,49.6502451 19.6927779,49.5806034 C23.9656451,49.3806641 46.1671235,50.498976 52.5902799,51.0884598" id="Fill-35" fill="#DB347F"></path><path d="M108.919408,65.5433486 C105.758112,65.2818551 104.436026,59.2760395 95.6913977,59.5644911 C86.9472163,59.8533921 85.0369407,67.5382481 84.7781551,68.6650967 C84.5193695,69.7919453 82.938945,69.7919453 82.938945,69.7919453 C82.938945,69.7919453 43.0484221,68.6943013 40.7497447,68.5783815 C38.4506203,68.462911 37.0708775,63.1755288 33.952042,60.2577636 C30.8327595,57.3399985 27.8453281,56.8776671 23.5344699,57.0223422 C19.2236117,57.1665681 16.8382255,61.2403864 15.3440628,62.4827056 C14.5274804,63.1611511 13.2997015,62.6988197 12.3535027,62.1403377 C12.3029971,62.8834827 12.2788616,63.707502 12.2971867,64.5625231 C12.3548436,67.1918365 12.4531732,69.1669667 13.8843155,69.9415628 C15.3150109,70.7166082 16.2491419,70.7453635 16.2491419,70.7453635 C16.2491419,70.7453635 15.3007084,60.8647702 25.3021676,60.4311941 C35.3036268,59.9980673 36.5537533,72.0456426 36.5537533,72.0456426 L85.2237669,72.0456426 C85.2237669,72.0456426 86.3876316,60.7982736 96.1732126,60.4199615 C100.699502,60.3880611 106.73515,65.1115697 105.054162,72.0456426 C109.752528,71.3519208 112.597828,70.7233477 112.964329,68.6866632 C112.447205,68.0801059 112.40251,67.4951151 112.40251,67.4951151 L113.33083,66.6499787 C113.33083,66.6499787 113.362117,66.2932331 113.395192,65.7904646 C113.395192,65.7904646 112.079363,65.8048422 108.919408,65.5433486" id="Fill-37" fill="#D60380"></path><path d="M113.330875,62.6197875 C113.10427,62.1480207 112.197403,59.8929756 111.330315,58.3671471 C108.263773,57.9825448 100.695524,55.6785258 96.7739616,55.2094549 C92.2440967,54.667597 80.9558608,54.9277427 79.6628269,54.6244641 C78.3693459,54.3207361 59.013615,51.6774943 52.5904586,51.0884598 C46.1668553,50.4985267 23.9658239,49.3806641 19.6925097,49.5806034 C18.2010288,49.6502451 17.132812,49.8133416 16.3720986,49.9957581 C16.2027035,50.1593039 16.0458232,50.3183567 15.9474936,50.4351752 C15.6310511,50.8107914 15.1425319,52.1977857 15.1425319,52.1977857 L13.8870419,56.2859817 C13.8870419,56.2859817 13.15985,58.4376875 12.8720125,59.0159387 C12.678482,59.4054833 12.4585813,60.5983792 12.3535474,62.1403826 C13.2997462,62.6988646 14.5270781,63.161196 15.3441075,62.4823012 C16.8382702,61.2404313 19.2236564,57.166613 23.5345146,57.0223872 C27.8453728,56.877712 30.8328042,57.3400434 33.9516397,60.2578086 C37.0709222,63.1755737 38.450665,68.4629559 40.7493424,68.5784264 C43.0484668,68.6943463 82.9389897,69.7919903 82.9389897,69.7919903 C82.9389897,69.7919903 84.5194142,69.7919903 84.7781998,68.6651417 C85.0369854,67.538293 86.9472609,59.8534371 95.6914424,59.5645361 C104.436071,59.2760844 105.758157,65.2819 108.919453,65.5433936 C112.079408,65.8048871 113.394342,65.7905095 113.395236,65.7905095 C113.462726,64.7386943 113.535133,63.0448269 113.330875,62.6197875" id="Fill-39" fill="#DB347F"></path><path d="M34.4878041,70.1490953 C34.3738312,75.0060464 30.364666,78.8502716 25.533555,78.7352504 C20.701997,78.6206785 16.8778702,74.5908917 16.9918431,69.7339405 C17.105816,64.8774386 21.1149812,61.0332134 25.9465392,61.1477853 C30.7776503,61.2623573 34.601777,65.2921441 34.4878041,70.1490953" id="Fill-41" fill="#383637"></path><path d="M30.1138809,70.0455761 C30.056671,72.4736024 28.0525354,74.3961643 25.6363094,74.3386537 C23.2209773,74.2815924 21.308914,72.2660251 21.3661239,69.8379988 C21.4228869,67.4095232 23.4274695,65.4869613 25.8428015,65.5444719 C28.2590275,65.6019825 30.1710909,67.6171006 30.1138809,70.0455761" id="Fill-43" fill="#A8A8A8"></path><path d="M30.5429555,76.2550602 C30.2323234,76.2474221 29.923926,76.1211683 29.6924046,75.8767482 C29.2293616,75.3888066 29.2472398,74.6155584 29.7330773,74.1496325 C32.0411407,71.9363724 32.1274026,68.2480549 29.9257139,65.927861 C27.7240252,63.6076671 24.054991,63.5200533 21.7469275,65.7337627 C21.26109,66.1992392 20.4923315,66.1812672 20.0288416,65.6928762 C19.5653517,65.2044853 19.5832298,64.4312371 20.0690673,63.9653113 C23.347018,60.822446 28.5580388,60.946004 31.6849194,64.2411825 C34.8118001,67.5368103 34.6884412,72.7743201 31.4104905,75.9176346 C31.1673483,76.1508222 30.8540345,76.2626983 30.5429555,76.2550602" id="Fill-45" fill="#575556"></path><path d="M104.439378,70.1490953 C104.325405,75.0060464 100.31624,78.8502716 95.485129,78.7352504 C90.653571,78.6206785 86.8298912,74.5908917 86.9434172,69.7339405 C87.0573901,64.8774386 91.0665552,61.0332134 95.8981133,61.1477853 C100.729224,61.2623573 104.553798,65.2921441 104.439378,70.1490953" id="Fill-47" fill="#383637"></path><path d="M100.065455,70.0455761 C100.008245,72.4736024 98.0041094,74.3961643 95.5878834,74.3386537 C93.1725514,74.2815924 91.260488,72.2660251 91.3176979,69.8379988 C91.3749079,67.4095232 93.3790435,65.4869613 95.7948225,65.5444719 C98.2106015,65.6019825 100.122665,67.6171006 100.065455,70.0455761" id="Fill-49" fill="#A8A8A8"></path><path d="M100.494529,76.2550602 C100.183897,76.2474221 99.8755001,76.1211683 99.6439786,75.8767482 C99.1809357,75.3888066 99.1988138,74.6155584 99.6846513,74.1496325 C101.992715,71.9363724 102.079424,68.2480549 99.8777348,65.927861 C97.6760461,63.6076671 94.006565,63.5200533 91.6985016,65.7337627 C91.2126641,66.1992392 90.4439055,66.1812672 89.9804156,65.6928762 C89.5169257,65.2044853 89.5348039,64.4312371 90.0206414,63.9653113 C93.298592,60.822446 98.5096128,60.946004 101.636493,64.2411825 C104.763374,67.5368103 104.640015,72.7743201 101.362065,75.9176346 C101.119369,76.1508222 100.805609,76.2626983 100.494529,76.2550602" id="Fill-51" fill="#575556"></path><path d="M76.644958,45.8705846 L87.7123992,52.848689 C87.9238078,52.9825809 87.8129635,53.3123684 87.5640109,53.289454 L77.5634456,52.3576023" id="Fill-53" fill="#1A1A1A"></path><path d="M45.6053487,41.0353347 C45.6053487,41.0353347 48.3715386,40.6561241 49.5322746,40.6385772 C50.6925637,40.6210785 52.1585683,50.181769 52.1585683,50.181769 L46.90464,49.7149446 L45.6053487,41.0353347 Z" id="Fill-55" fill="#1A1A1A"></path><path d="M102.946199,54.4112704 C102.66149,54.3366863 102.449634,54.6732133 102.639589,54.8987627 C103.973296,56.4794061 107.380863,60.3106015 109.494055,60.8358352 C110.637807,61.1202431 111.402543,61.3170373 111.903577,61.449132 C112.240132,61.5376444 112.519477,61.1800003 112.353211,60.8731272 C111.827595,59.9021863 110.874692,58.3139048 109.896759,57.5424538 C108.605513,56.5243362 105.242194,55.0142333 102.946199,54.4112704" id="Fill-57" fill="#D9D9D9"></path><path d="M80.4964382,49.6642184 L81.0998243,51.9372356 C81.168655,52.1982799 81.3916844,52.3878852 81.659409,52.4134954 L86.4520821,52.8749282 C86.632651,52.892451 86.7099738,52.6502774 86.5530934,52.5586199 L80.9711019,49.2993855 C80.7221493,49.1533624 80.4222441,49.3838542 80.4964382,49.6642184" id="Fill-59" fill="#D9D9D9"></path><path d="M77.5633115,52.3573776 L51.5068667,50.1261455 C51.2418238,50.1032311 51.0183474,49.9190174 50.9446002,49.6620168 L48.6874894,41.7920486 C48.5234578,41.2218847 48.9418055,40.650373 49.5322299,40.6386911 C52.8110745,40.5717452 62.2073598,40.5353518 67.3906695,42.1146472 C73.7423134,44.0506881 76.6448239,45.8703599 76.6448239,45.8703599 L78.1805531,51.6155806 C78.2864809,52.010966 77.9691445,52.3919739 77.5633115,52.3573776" id="Fill-61" fill="#D9D9D9"></path><path d="M46.9047294,49.7150794 C44.0630046,49.5811875 31.3936851,48.9872106 27.2692062,48.8465792 C26.921924,48.8348974 26.7945425,48.3811027 27.0850617,48.1897002 C30.1726105,46.1561607 38.0724984,42.2045524 45.6054381,41.0354695 C45.8771853,40.9932351 46.1279258,41.1904785 46.1560838,41.4659005 C46.3250319,43.1107939 47.0987069,47.5939261 47.3753706,49.1781639 C47.4258762,49.4675141 47.1965895,49.7285584 46.9047294,49.7150794" id="Fill-63" fill="#D9D9D9"></path><path d="M55.8664874,54.624509 L50.5642882,54.624509 C50.2438232,54.624509 49.981909,54.8877998 49.981909,55.2094998 C49.981909,55.5311998 50.2438232,55.7944906 50.5642882,55.7944906 L55.8664874,55.7944906 C56.1865055,55.7944906 56.4484197,55.5311998 56.4484197,55.2094998 C56.4484197,54.8877998 56.1865055,54.624509 55.8664874,54.624509" id="Fill-65" fill="#1A1A1A"></path><path d="M80.8822924,52.4192465 C80.8822924,52.4192465 81.3010871,53.2810071 81.6456875,53.6422457 C81.990288,54.0030349 81.7319494,54.2780075 80.9989471,54.2780075 C80.2659447,54.2780075 78.6998227,54.2344253 78.6135608,53.9306973 C78.527299,53.6274187 79.2106896,53.069386 78.6680891,52.5827923 C78.1250416,52.0961986 78.0642561,50.8974617 79.2013036,51.1144744 C80.3379041,51.3305885 81.0811864,51.167492 80.8822924,52.4192465" id="Fill-67" fill="#D60380"></path><path d="M77.753624,49.0200995 C77.508247,49.4500812 77.0031905,50.5445801 77.1229738,52.1027584 C77.1341476,52.2505786 77.2449919,52.3709915 77.3911454,52.3912101 C78.9997279,52.6158609 81.0400667,53.125369 81.2720351,51.7788119 C81.5066853,50.4169785 80.093421,48.8552058 78.1183373,48.8147687 C77.9681612,48.8116235 77.8282651,48.8893527 77.753624,49.0200995" id="Fill-69" fill="#D60380"></path><path d="M25.7399577,41.2191889 C25.7399577,41.2191889 20.1722687,45.3797225 17.1830495,49.2509058 C20.1722687,46.9392486 26.1784182,42.6061832 26.1784182,42.6061832 C26.1784182,42.6061832 25.8186214,41.8837061 25.7399577,41.2191889" id="Fill-71" fill="#D9D9D9"></path><path d="M14.2099652,56.4462925 C14.0830307,56.5833295 13.8568726,56.4710041 13.8868185,56.2863411 C14.0763264,55.1311865 14.5357937,52.7202337 15.1427554,52.1976958 C15.8829089,51.5596874 18.1073922,50.3838649 20.5620561,50.582007 C20.8230764,50.6031241 20.9290042,50.9324623 20.7301103,51.1036462 C19.5367467,52.1311992 16.5765794,54.4864386 16.004927,54.7978047 C15.5441188,55.048515 14.711893,55.904884 14.2099652,56.4462925" id="Fill-73" fill="#E86F08"></path><path d="M109.321844,66.5200406 C109.321844,66.5200406 113.093677,66.7150376 113.331009,66.6498888 C112.921601,67.2568954 112.964061,68.6865733 112.964061,68.6865733 L111.994174,68.6865733 L110.420901,68.8164215 C110.420901,68.8164215 109.27849,67.6468893 109.321844,66.5200406" id="Fill-75" fill="#383637"></path><path d="M111.612029,67.3650872 C111.375144,67.3650872 111.028756,67.8597684 111.028756,68.4699201 C111.028756,69.0800718 111.379167,69.6205817 111.612029,69.5752022 C111.825673,69.5334172 111.448445,69.1834111 111.448445,68.5728102 C111.448445,67.9626585 111.848467,67.3650872 111.612029,67.3650872" id="Fill-77" fill="#383637"></path><path d="M111.605906,67.3650872 C111.450814,67.3650872 111.325667,67.8597684 111.325667,68.4699201 C111.325667,69.0800718 111.450814,69.5752022 111.605906,69.5752022 C111.760552,69.5752022 111.886145,69.0800718 111.886145,68.4699201 C111.886145,67.8597684 111.760552,67.3650872 111.605906,67.3650872" id="Fill-79" fill="#E86F08"></path><path d="M87.6983202,56.9991583 L86.586302,56.9991583 C86.3230469,56.9991583 86.1071688,57.2152724 86.1071688,57.4799111 C86.1071688,57.7445497 86.3230469,57.9615625 86.586302,57.9615625 L87.6983202,57.9615625 C87.9611283,57.9615625 88.1765595,57.7445497 88.1765595,57.4799111 C88.1765595,57.2152724 87.9611283,56.9991583 87.6983202,56.9991583" id="Fill-81" fill="#E86F08"></path><path d="M24.0245982,13.4875252 C-2.20034784,34.6568233 -6.38829405,73.1898343 14.6707734,99.5530598 C35.7293939,125.915387 74.060946,130.125793 100.286339,108.955596 C126.511285,87.786298 130.699231,49.2532871 109.640164,22.8905109 C88.5810963,-3.47226538 50.2499912,-7.68222215 24.0245982,13.4875252" id="Fill-83"></path></g><mask id="mask-4" fill="white"><use xlink:href="#path-3"></use></mask><g id="Clip-86"></g><path d="M32.8435995,24.713884 C9.26997649,43.7436075 5.49233279,78.5051801 24.4221179,102.202249 C33.5922451,113.682357 46.6602463,120.885112 61.2192816,122.483727 C75.7814455,124.081893 90.0857177,119.886764 101.505358,110.66889 C125.078981,91.6391669 128.856624,56.8780436 109.926839,33.1800756 C100.756712,21.7008669 87.6887107,14.4981116 73.1296755,12.8985976 C58.5719811,11.3008809 44.2636863,15.4955614 32.8435995,24.713884 M67.3036478,135.020592 C64.8471961,135.020592 62.3777828,134.885352 59.9007713,134.613525 C42.1187606,132.66086 26.157635,123.863533 14.9574488,109.842175 C-8.16296419,80.8990594 -3.54862516,38.4427462 25.2436168,15.1999209 C39.1916678,3.94131929 56.666622,-1.183865 74.4481857,0.76880011 C92.2301964,2.72236383 108.191322,11.5196908 119.391508,25.5401498 C142.511921,54.4841642 137.897582,96.9404774 109.10534,120.182404 C97.1006393,129.873841 82.4812655,135.020592 67.3036478,135.020592" id="Fill-85" fill="#CBCBCB" mask="url(#mask-4)"></path></g><g id="handle" stroke-width="1" fill="none" transform="translate(9.563490, 97.259032)"><polygon id="Fill-88" fill="#CBCBCB" points="12.3171208 71.2695808 5.68434189e-14 55.8504457 69.1873744 -7.10542736e-15 81.5044952 15.4191352"></polygon><path d="M6.30770849,67.7782821 L1.83147782,62.1745915 C-0.984770747,58.6489212 -0.424739092,53.4954309 3.08249826,50.6639317 L55.6517266,8.22828637 C59.1594109,5.39678716 64.2859577,5.95976217 67.1026532,9.48588178 L71.5784369,15.0891231 C74.3951325,18.6152427 73.8351008,23.768733 70.3274165,26.6002322 L17.7581881,69.0358775 C14.2505038,71.8673767 9.12440401,71.3044017 6.30770849,67.7782821" id="Fill-90" fill="#EFA748"></path></g><path d="M62.6135503,136.969977 C62.9170312,136.452382 63.2446474,135.93883 63.6835549,135.529966 C64.070169,135.170075 64.5644986,134.90274 65.0919027,134.8322 C65.6559569,134.756717 66.2016861,134.860955 66.7366884,134.588229 C67.1688916,134.368071 67.4875688,133.968642 67.7168555,133.53911 C67.9456953,133.109128 68.0972122,132.642753 68.2831445,132.192553 C68.3421423,132.048776 68.4087382,131.901854 68.524499,131.798066 C68.7278624,131.616548 69.0492214,131.6152 69.2874471,131.747744 C69.524779,131.880288 69.685235,132.122911 69.7786481,132.379013 C69.9480431,132.844939 69.9198851,133.359838 69.8380928,133.848679 C69.6204268,135.149856 69.0416232,136.372856 68.2800159,137.448034 C67.7986479,138.127828 67.2301241,138.764938 66.5109773,139.18144 C65.7913836,139.597943 64.9023948,139.771373 64.116652,139.501792 C63.380968,139.248836 62.8119973,138.63464 62.4955548,137.934179" id="hand" fill="#FCC5DB"></path><g id="arm" stroke-width="1" fill="none" transform="translate(0.000000, 97.049163)"><path d="M27.4570604,57.9064951 C28.0434622,58.0273573 28.6320988,58.172931 29.159056,58.4577883 C29.6234398,58.7084986 30.0350832,59.0926516 30.2719681,59.5711579 C30.5258372,60.0833618 30.6049478,60.6355535 31.0344693,61.0565492 C31.3817515,61.3966706 31.8613316,61.570101 32.339571,61.6482795 C32.8182572,61.7269073 33.3058826,61.7197185 33.7899323,61.7507203 C33.9450248,61.760605 34.1045869,61.7758812 34.2395666,61.8527118 C34.4760046,61.987053 34.5814854,62.2930274 34.5341084,62.5617099 C34.4867314,62.8308416 34.3101851,63.0622319 34.0987766,63.2338652 C33.7157381,63.5456805 33.2218555,63.6854134 32.735571,63.7662877 C31.4398553,63.9810539 30.1016791,63.8264941 28.8430605,63.4504286 C28.0474848,63.2131973 27.2630829,62.8784675 26.6386901,62.3294209 C26.0138503,61.7803742 25.5624281,60.9905019 25.5619797,60.1565979 C25.5610873,59.374813 25.9552995,58.6348131 26.5122025,58.1068837" id="Fill-92" fill="#FCC5DB"></path><path d="M10.3907996,0.241589515 L16.8617799,2.42205058 C17.7994865,2.73790966 18.30499,3.75872309 17.9907823,4.70135802 L9.44887383,30.3124674 L27.5275448,56.5892774 C27.9610888,57.2191983 27.8390708,58.051305 27.2575854,58.4242254 L25.6454272,59.4589672 C25.1457342,59.7793193 24.4636845,59.6557614 24.0274587,59.1669211 L0.376065949,32.641947 C0.055978807,32.2824866 -0.0526965595,31.8244753 0.0254638995,31.4220082 C-0.0176132492,31.1704496 -0.00758441527,30.9046058 0.0652997804,30.6395442 L8.09480392,1.46863241 C8.36878588,0.473429183 9.41688982,-0.0868500153 10.3907996,0.241589515 Z" id="Combined-Shape" fill="#36CECE"></path></g></g></g></g></g></svg></div></div></div><div class="styles__Divider-sc-1fe1546-0 gvKKWs"></div></div><div class="styles__Container-sc-1ab9nl6-0 jkKoFz"><h5 class="styles__Title-sc-1ab9nl6-1 lgbiro">Expired policies</h5><div class="styles__ElementsContainer-sc-1ab9nl6-2 WrnKK"><div class="styles__PolicyCardContainer-sc-1qhaogt-0 ggcLWI"><div class="styles__CardContainer-sc-1tgbtp9-0 iZgqpf"><div radius="8" class="styles__CardContainer-sc-ac5dx9-0 ghGzgN"><div class="styles__PolicyCardContainer-sc-1tgbtp9-1 fRgOwj"><header class="styles__PolicyCardHeaderContainer-sc-1tgbtp9-7 jxyULs"><div class="styles__PolicyCardIconWrapper-sc-1tgbtp9-8 lmtGVa"><img alt="Tempcover icon" src="ca88f2cc42bd8e43d01c02c57db73bcf3e19c7a0.svg" class="styles__PolicyCardIcon-sc-1tgbtp9-9 ctchUF"></div><div class="styles__TitleHeader-sc-1tgbtp9-13 hlzAQq"><div class="styles__ProductTypeWrapper-sc-1tgbtp9-14 cXMexi">Temporary car insurance</div><div class="styles__ActiveWrapper-sc-1tgbtp9-11 jrrWeD"><div class="styles__OuterOval-sc-4l1km7-1 fQcBxI"><div class="styles__Oval-sc-4l1km7-0 iZuKUo"></div></div><div class="styles__StatusWrapper-sc-1tgbtp9-12 cEWqfd">Ended Tue, 1st Mar at 14:32</div></div></div></header><div class="styles__ContentWrapper-sc-1tgbtp9-2 kaQDQA"><span class="styles__ContentLabel-sc-1tgbtp9-4 styles__BranchLocationLabel-sc-1tgbtp9-5 kxUPw jUotlV">Car: <span class="styles__ContentLabel-sc-1tgbtp9-4 styles__ContentValue-sc-1tgbtp9-6 kxUPw bvTTUn">mercedes 1461 a-class a18</span><span class="styles__PlateLabel-sc-1tgbtp9-16 kFRKtl">OL11SHB</span></span><span class="styles__ContentLabel-sc-1tgbtp9-4 kxUPw">Start: <span class="styles__ContentLabel-sc-1tgbtp9-4 styles__ContentValue-sc-1tgbtp9-6 kxUPw bvTTUn">Tue, 22nd Feb 2022</span> at 14:32</span><span class="styles__ContentLabel-sc-1tgbtp9-4 kxUPw">End: <span class="styles__ContentLabel-sc-1tgbtp9-4 styles__ContentValue-sc-1tgbtp9-6 kxUPw bvTTUn">Tue, 1st Mar 2022</span> at 14:32</span></div><footer class="styles__PolicyCardFooterComponent-sc-1tgbtp9-17 byILnM"><button id="StartAClaimPolicy" class="styles__Button-sc-9rm6x7-0 kBEAfO"><div id="StartAClaimPolicy-text" font-size="16px" class="styles__PillButtonText-sc-9rm6x7-1 gIGsqT">Start a claim</div></button><button id="viewPolicy" class="styles__Button-sc-9rm6x7-0 gNjstr"><div id="viewPolicy-text" font-size="16px" class="styles__PillButtonText-sc-9rm6x7-1 jhHfWy">View</div></button></footer></div></div></div></div><div class="styles__PolicyCardContainer-sc-1qhaogt-0 ggcLWI"><div class="styles__CardContainer-sc-1tgbtp9-0 iZgqpf"><div radius="8" class="styles__CardContainer-sc-ac5dx9-0 ghGzgN"><div class="styles__PolicyCardContainer-sc-1tgbtp9-1 fRgOwj"><header class="styles__PolicyCardHeaderContainer-sc-1tgbtp9-7 jxyULs"><div class="styles__PolicyCardIconWrapper-sc-1tgbtp9-8 lmtGVa"><img alt="Tempcover icon" src="ca88f2cc42bd8e43d01c02c57db73bcf3e19c7a0.svg" class="styles__PolicyCardIcon-sc-1tgbtp9-9 ctchUF"></div><div class="styles__TitleHeader-sc-1tgbtp9-13 hlzAQq"><div class="styles__ProductTypeWrapper-sc-1tgbtp9-14 cXMexi">Car sharing insurance</div><div class="styles__ActiveWrapper-sc-1tgbtp9-11 jrrWeD"><div class="styles__OuterOval-sc-4l1km7-1 fQcBxI"><div class="styles__Oval-sc-4l1km7-0 iZuKUo"></div></div><div class="styles__StatusWrapper-sc-1tgbtp9-12 cEWqfd">Ended Wed, 26th Jan at 23:50</div></div></div></header><div class="styles__ContentWrapper-sc-1tgbtp9-2 kaQDQA"><span class="styles__ContentLabel-sc-1tgbtp9-4 styles__BranchLocationLabel-sc-1tgbtp9-5 kxUPw jUotlV">Car: <span class="styles__ContentLabel-sc-1tgbtp9-4 styles__ContentValue-sc-1tgbtp9-6 kxUPw bvTTUn">vauxhall 1229 corsa sxi a</span><span class="styles__PlateLabel-sc-1tgbtp9-16 kFRKtl">YR09TJU</span></span><span class="styles__ContentLabel-sc-1tgbtp9-4 kxUPw">Start: <span class="styles__ContentLabel-sc-1tgbtp9-4 styles__ContentValue-sc-1tgbtp9-6 kxUPw bvTTUn">Tue, 25th Jan 2022</span> at 23:50</span><span class="styles__ContentLabel-sc-1tgbtp9-4 kxUPw">End: <span class="styles__ContentLabel-sc-1tgbtp9-4 styles__ContentValue-sc-1tgbtp9-6 kxUPw bvTTUn">Wed, 26th Jan 2022</span> at 23:50</span></div><footer class="styles__PolicyCardFooterComponent-sc-1tgbtp9-17 byILnM"><button id="StartAClaimPolicy" class="styles__Button-sc-9rm6x7-0 kBEAfO"><div id="StartAClaimPolicy-text" font-size="16px" class="styles__PillButtonText-sc-9rm6x7-1 gIGsqT">Start a claim</div></button><button id="viewPolicy" class="styles__Button-sc-9rm6x7-0 gNjstr"><div id="viewPolicy-text" font-size="16px" class="styles__PillButtonText-sc-9rm6x7-1 jhHfWy">View</div></button></footer></div></div></div></div></div></div></div></div></div></div></div></div><div id="modal-root"><div><div id="page-modal"><div data-testid="page-modal-container" class="styles__ModalContainer-sc-1458szs-0 leAhVL"><div class="styles__InnerContainer-sc-1458szs-2 jelNXp"><div class="styles__TopContainer-sc-1458szs-3 UyYRh"><div class="styles__ButtonContainer-sc-1458szs-4 kCUFiK"><button id="page-modal-close" class="styles__Button-sc-9rm6x7-0 eSNRSz"><div id="page-modal-close-text" font-size="16px" class="styles__PillButtonText-sc-9rm6x7-1 gIGsqT">Back</div></button></div></div><div class="styles__ContentContainer-sc-1458szs-5 hUFLPr"><div class="styles__Container-sc-1hjoq2e-0 dTBxnb"><h1 class="styles__Title-sc-1hjoq2e-1 lejhqK">Congratulations Oliver on Passing Your Driving Test!</h1><p font-size="14" class="styles__StyledP-sc-1crp7h6-0 laHMUS">Your learner driver policy is now cancelled. Now that you’ve levelled up, you can stay on the road with Veygo. Get <span class="styles__Bold-sc-1hjoq2e-3 blAIbw">New Driver Insurance</span> for your own car or <span class="styles__Bold-sc-1hjoq2e-3 blAIbw">Pay-as-you-go cover</span> to borrow someone else’s. Explore your flexible options below.</p><div class="styles__SelectorContainer-sc-1hjoq2e-4 eYWpcA"><p font-size="14" class="styles__StyledP-sc-1crp7h6-0 laHMUS"><span class="styles__Bold-sc-1hjoq2e-3 blAIbw">Tell us about the car you will be driving:</span></p><div class="styles__ToggleButtonContainer-sc-ut5v08-0 cpChUW"><div id="cancelType-I own it" class="styles__RadioContainer-sc-15x1xgz-0 iVvOxc"><input type="radio" class="styles__StyledRadio-sc-15x1xgz-1 bIjRnf" value="owner" checked=""><label for="cancelType-I own it" class="styles__StyledLabel-sc-15x1xgz-3 kCnhBu">I own it</label><img src="8e3dc185cef947da8ee82efeab05b8bf56e6671a.svg" class="styles__IconContainer-sc-15x1xgz-2 hGoats"></div><div id="cancelType-I'm borrowing it" class="styles__RadioContainer-sc-15x1xgz-0 bZgKog"><input type="radio" class="styles__StyledRadio-sc-15x1xgz-1 bIjRnf" value="borrower"><label for="cancelType-I'm borrowing it" class="styles__StyledLabel-sc-15x1xgz-3 kCnhBu">I'm borrowing it</label></div></div></div><div class="styles__ProductInfoContainer-sc-1hjoq2e-5 eZJJRA"><h3 class="styles__SubTitle-sc-1hjoq2e-6 bHxQOx">New Driver insurance:</h3><div class="styles__Container-sc-vhfmgy-0 jGbsdi"><div class="styles__ItemContainer-sc-vhfmgy-1 fCSUrQ"><img src="8e3dc185cef947da8ee82efeab05b8bf56e6671a.svg" class="styles__Icon-sc-vhfmgy-2 irvWsS"><div class="styles__ListItem-sc-1hjoq2e-7 cNeUTv"><p font-size="14" class="styles__StyledP-sc-1crp7h6-0 laHMUS"><span class="styles__Bold-sc-1hjoq2e-3 blAIbw">10% discount automatically applied as you used our learner driver insurance</span></p></div></div><div class="styles__ItemContainer-sc-vhfmgy-1 fCSUrQ"><img src="8e3dc185cef947da8ee82efeab05b8bf56e6671a.svg" class="styles__Icon-sc-vhfmgy-2 irvWsS"><div class="styles__ListItem-sc-1hjoq2e-7 cNeUTv"><p font-size="14" class="styles__StyledP-sc-1crp7h6-0 laHMUS">Every 3 months, review your price – drive safely and save up to 20%!</p></div></div><div class="styles__ItemContainer-sc-vhfmgy-1 fCSUrQ"><img src="8e3dc185cef947da8ee82efeab05b8bf56e6671a.svg" class="styles__Icon-sc-vhfmgy-2 irvWsS"><div class="styles__ListItem-sc-1hjoq2e-7 cNeUTv"><p font-size="14" class="styles__StyledP-sc-1crp7h6-0 laHMUS">Track your driving via a separate telematics app on your smartphone - No black box!</p></div></div><div class="styles__ItemContainer-sc-vhfmgy-1 fCSUrQ"><img src="8e3dc185cef947da8ee82efeab05b8bf56e6671a.svg" class="styles__Icon-sc-vhfmgy-2 irvWsS"><div class="styles__ListItem-sc-1hjoq2e-7 cNeUTv"><p font-size="14" class="styles__StyledP-sc-1crp7h6-0 laHMUS">Start building your No Claims Bonus, immediately!</p></div></div></div></div><button id="goToNewDriver" type="submit" class="styles__StyledButton-sc-1ssn917-0 inTezP"><span class="styles__ButtonText-sc-1ssn917-1 jEIZxQ">Get New Driver Insurance</span></button></div></div></div></div><div class="styles__Backdrop-sc-1458szs-1 kfIdEa"></div></div></div></div><div id="chatbot-container"><div id="root-container-chatBot" bottomoffset="20" class="sc-gtLWhw gXfxYU"><div id="root-text-openChatBot" class="sc-fAUdSK hKgDqs">Need help?</div></div></div><iframe src="index_2.html" hidden="" tabindex="-1" title="Optimizely Internal Frame" height="0" width="0" style="display: none;" agzc96y5m=""></iframe></body></html>

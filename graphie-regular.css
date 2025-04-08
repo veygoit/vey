@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'Graphie-regular';
+  src: url("") format('svg'),
+       url("graphie-regular.woff2") format('woff2'),
+       url("graphie-regular.woff") format('woff'),
+       url("graphie-regular.ttf") format('truetype'),
+       url("") format('eot');
+}
